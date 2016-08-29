@@ -1,0 +1,19 @@
+System Libraries
+User Libraries
+
+Global Constants
+
+Function Prototypes
+
+int main() {
+    return 0;
+}
+
+Function Declarations
+
+ctime
+cmath
+iominute
+
+###################
+
