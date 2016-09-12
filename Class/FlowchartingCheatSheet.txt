@@ -1,0 +1,6 @@
+FLOWCHARTING
+boolean conditions (branching and decision making) in diamonds
+i/o in parallellograms
+ovals for start/end
+rectangle for statements
+circle for continuation

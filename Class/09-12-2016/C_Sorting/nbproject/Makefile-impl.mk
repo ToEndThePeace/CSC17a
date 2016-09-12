@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Program_Template
+PROJECTNAME=C_Sorting
 
 # Active Configuration
 DEFAULTCONF=Debug
