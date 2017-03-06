@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=C_CCC
+PROJECTNAME=C_FloatingPointError
 
 # Active Configuration
 DEFAULTCONF=Debug
