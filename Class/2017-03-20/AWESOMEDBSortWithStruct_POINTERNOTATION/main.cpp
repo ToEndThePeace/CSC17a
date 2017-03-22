@@ -1,3 +1,9 @@
+/*
+ * Student: Brandon Ramirez
+ * Created: March 22, 2017, 12:30 PM
+ * Project: Convert all array indices to pointer indices. 
+ */
+
 //System Libraries Here
 #include <iostream>
 using namespace std;
@@ -44,15 +50,15 @@ Array *fillAry(int n, int mod) {
     a->index = new int[a->size];
     //Fill with data
     for (int i = 0; i < a->size; i++) {
-        a->data[i]  = i % mod;
-        a->index[i] = i;
+        *(a->data + i)  = i % mod;
+        *(a->index + i) = i;
     }
     //Return the array
     return a;
 }
 void prntAry(Array *a, int perLine) {
     for (int i = 0; i < a->size; i++) {
-        cout << a->data[a->index[i]] << " ";
+        cout << *(a->data + *(a->index + i)) << " ";
         if (i % perLine == perLine - 1) cout << endl;
     }
     cout << endl;
@@ -61,10 +67,10 @@ void prntAry(Array *a, int perLine) {
 void markSrt(Array *a){ //Sorts the inDEX
     for (int i = 0; i < a->size; i++) {
         for (int j = i + 1; j < a->size; j++) {
-            if (a->data[a->index[i]] > a->data[a->index[j]]) {
-                int temp = a->index[i];
-                a->index[i] = a->index[j];
-                a->index[j] = temp;
+            if (*(a->data + *(a->index + i)) > *(a->data + *(a->index + j))) {
+                int temp = *(a->index + i);
+                *(a->index + i) = *(a->index + j);
+                *(a->index + j) = temp;
             }
         }
     }
