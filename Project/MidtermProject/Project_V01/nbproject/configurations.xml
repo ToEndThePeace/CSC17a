@@ -29,6 +29,7 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
     <itemPath>lib/enemyList.bin</itemPath>
+    <itemPath>locs.bin</itemPath>
     <itemPath>lib/playerList.bin</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -50,6 +51,8 @@
       <item path="lib/enemyList.bin" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/playerList.bin" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="locs.bin" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -83,6 +86,8 @@
       <item path="lib/enemyList.bin" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/playerList.bin" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="locs.bin" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

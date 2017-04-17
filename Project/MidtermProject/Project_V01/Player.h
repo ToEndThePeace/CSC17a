@@ -18,9 +18,11 @@ public:
     
     //Accessor Members
     string getName();
-    int getLvl();
     string getRole();
     int getLevel();
+    int gHP();
+    int gMP();
+    vector <int> getStats();
     
     void output();
 };
@@ -116,6 +118,15 @@ string Player::getRole() {
         default:
             return "Unknown";
     }
+}
+vector <int> Player::getStats() {
+    return stats;
+}
+int Player::gHP() {
+    return hp;
+}
+int Player::gMP() {
+    return mp;
 }
 void Player::output() {
     cout << name << ", Level " << level << " " << getRole() << endl <<

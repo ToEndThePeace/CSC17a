@@ -14,6 +14,7 @@
 //System Libraries
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <time.h>
 #include <string>
@@ -64,9 +65,10 @@ int main(int argc, char** argv) {
             "5: Output Enemy Names" << endl <<
             "6: Random Encounter" << endl <<
             "7: Output Player List" << endl <<
+            "8: New Encounter" << endl <<
             ">> ";
     cin >> x;
-    string input;
+    int input;
     switch (x) {
         case 1:
             output("Which character?");
@@ -75,7 +77,7 @@ int main(int argc, char** argv) {
             }
             cout << ">> ";
             cin >> input;
-            play[stoi(input) - 1].output();
+            play[input - 1].output();
             break;
         case 2:
             cout << "Creating character..." << endl;
@@ -106,6 +108,12 @@ int main(int argc, char** argv) {
                         endl;
             }
             break;
+        case 8:
+        {
+            Encounter battle(play[0], enem[rand() % NUM_RACES][rand() % NUM_TYPES]);
+            battle.output();
+            break;
+        }
         default:
             break;
     } //*/
