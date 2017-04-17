@@ -18,9 +18,9 @@ class Enemy {
 private:
     int loc;
     std::string race, cls;
-    int hp, mp, atk, mag, def, spd, xp;
     bool boss;
 public:
+    int hp, mp, atk, mag, def, spd, xp;
     Enemy();
     Enemy(int, int);
     void setEnemy(int, string, string, int, int, int, int, int, int, bool, int);

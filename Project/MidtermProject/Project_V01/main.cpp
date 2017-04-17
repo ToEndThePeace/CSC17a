@@ -110,7 +110,11 @@ int main(int argc, char** argv) {
             break;
         case 8:
         {
-            Encounter battle(play[0], enem[rand() % NUM_RACES][rand() % NUM_TYPES]);
+            Encounter battle(play[rand() % play.size()], 
+                    enem[rand() % NUM_RACES][rand() % NUM_TYPES]);
+            battle.output();
+            battle.doDmg();
+            output("Both parties do ~5~ dmg!");
             battle.output();
             break;
         }

@@ -7,11 +7,14 @@ private:
     std::string name;   //This needs to be a string
     int role;           //Use switch statements on the int
     vector <int> stats, bstats;
-    int hp, mp, xp, level;
+    int xp, level;
 public:
     Player();
     Player(string, int);
     Player(string, int, int, int, int, int);
+    
+    vector <int> hp, mp; //Have 2 values, current and max
+    
     int toNextLvl();
     void addXP(int);
     void setStats();
@@ -20,8 +23,6 @@ public:
     string getName();
     string getRole();
     int getLevel();
-    int gHP();
-    int gMP();
     vector <int> getStats();
     
     void output();
@@ -40,9 +41,11 @@ Player::Player(string s, int n, int cHP = 0, int cMP = 0,
         bstats.push_back(0);
         stats.push_back(0);
     }
+    for (int i = 0; i < 2; i++) {
+        hp.push_back(0);
+        mp.push_back(0);
+    }
     setStats();
-    hp = (cHP > bstats[0]) ? bstats[0] : cHP;
-    mp = (cMP > bstats[1]) ? bstats[1] : cMP;
 }
 //Member Function Definitions
 /**
@@ -91,13 +94,15 @@ void Player::setStats() {
             break;
     }
     for (int i = 0; i < 2; i++) {
-        //stats[i] = ceil(bstats[i] * 2 * level / 100) + 10 + level;
-        stats[i] = 50;
-    }\
-    for (int i = 2; i < 6; i++) {
-        //stats[i] = ceil(bstats[i] * 2 * level / 100) + 5;
-        stats[i] = 50;
+        stats[i] = ceil(bstats[i] * 2 * level / 100) + 10 + level;
     }
+    for (int i = 2; i < 6; i++) {
+        stats[i] = ceil(bstats[i] * 2 * level / 100) + 5;
+    }
+    hp[0] = stats[0];
+    hp[1] = stats[0];
+    mp[0] = stats[1];
+    mp[1] = stats[1];
 }
 
 //Accessor Member Function Definitions
@@ -121,12 +126,6 @@ string Player::getRole() {
 }
 vector <int> Player::getStats() {
     return stats;
-}
-int Player::gHP() {
-    return hp;
-}
-int Player::gMP() {
-    return mp;
 }
 void Player::output() {
     cout << name << ", Level " << level << " " << getRole() << endl <<
