@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main.cpp
- * Author: brandon
- *
- * Created on April 12, 2017, 8:56 PM
- */
-
 //System Libraries
 #include <cstdlib>
 #include <iostream>
@@ -26,6 +13,7 @@ using namespace std;
 //User Libraries
 #include "Player.h"
 #include "Enemy.h"
+#include "Move.h"
 #include "Encounter.h"
 
 //Global Constants
@@ -35,7 +23,8 @@ int NUM_TYPES = 3;
 //Function Prototypes
 
 //File I/O Functions
-vector<Player> loadPlayer();
+vector <Player> loadPlayer();
+vector <Move> loadMvs();
 Enemy** loadEnemy();
 void newEnemy();
 
@@ -49,8 +38,10 @@ int main(int argc, char** argv) {
     
     //Load Enemy Data
     Enemy** enem = loadEnemy();
+    //Load Enemy Moves
+    vector <Move> move = loadMvs();
     //Load Player Data
-    vector<Player> play = loadPlayer();
+    vector <Player> play = loadPlayer();
     
     
     int x; //Used for menu inputs
@@ -110,12 +101,14 @@ int main(int argc, char** argv) {
             break;
         case 8:
         {
-            Encounter battle(play[rand() % play.size()], 
-                    enem[rand() % NUM_RACES][rand() % NUM_TYPES]);
-            battle.output();
-            battle.doDmg();
-            output("Both parties do ~5~ dmg!");
-            battle.output();
+            char yorn('y');
+            do {
+                Encounter battle(play[/*rand() % play.size()*/1], 
+                        enem[rand() % NUM_RACES][rand() % NUM_TYPES], move);
+                output("Play again? y/n");
+                cout << ">> ";
+                cin >> yorn;
+            } while (yorn != 'n');
             break;
         }
         default:
@@ -135,25 +128,46 @@ int main(int argc, char** argv) {
 }
 
 //Function Declarations
-
-vector<Player> loadPlayer() {
+vector <Move> loadMvs() {
+    //Open lib file
+    fstream binMvs;
+    binMvs.open("lib/movelist.bin", ios::in | ios::binary);
+    
+    //Create vector of moves
+    vector <Move> ary;
+    
+    //Variables to read in file stream
+    int pow, heal, cost;
+    string name;
+    bool type;
+    
+    //Read in the file
+    while (binMvs >> name >> pow >> heal >> type >> cost) {
+        Move m(name, pow, heal, type, cost);
+        ary.push_back(m);
+    }
+    
+    binMvs.close();
+    
+    return ary;
+}
+vector <Player> loadPlayer() {
     //Open Library File
     fstream binPlays;
     binPlays.open("lib/playerList.bin", ios::in | ios::binary);
     
-    //Create dynamic array of players
+    //Create vector of players
     vector<Player> ary;
     
     //Variables to read in file stream
     string name;
-    int role, hp, mp, xp, lvl, i(0);
+    int role, hp, mp, xp, lvl;
     
     //Read in the file
     while (binPlays >> name >> role >> hp >> mp >> xp >> lvl) {
         //cout << name << ", Level " << lvl << endl;//Debugging
         Player nPL(name, role, hp, mp, xp, lvl);
         ary.push_back(nPL);
-        i++;
     }
     
     binPlays.close();
@@ -173,18 +187,19 @@ Enemy** loadEnemy() {
     Enemy** ary = new Enemy*[NUM_RACES];
     
     //Variables to read in file stream
-    int loc, hp, mp, atk, mag, def, spd, xp;
+    int loc, indx, hp, mp, atk, mag, def, spd, xp, m1, m2, m3, m4;
     bool boss;
     string race, cls;
     
     //Read in the file
-    while (binEnems >> loc >> race >> cls >> hp >> mp >> atk >> mag  >> 
-                       def >> spd >> boss >> xp) {
+    while (binEnems >> loc >> indx >> race >> cls >> hp >> mp >> 
+                       atk >> mag  >> def >> spd >> boss >> xp >>
+                       m1 >> m2 >> m3 >> m4) {
         //cout << loc << race << cls << endl;
         ary[loc] = new Enemy[NUM_TYPES];
         for (int i = 0; i < NUM_TYPES; i++) {
             ary[loc][i].setEnemy(loc, race, cls, hp, mp, atk, mag, 
-                                 def, spd, boss, xp);
+                                 def, spd, boss, xp, indx, m1, m2, m3, m4);
         }
     }
     

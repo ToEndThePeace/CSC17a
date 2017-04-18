@@ -24,8 +24,10 @@ public:
     string getRole();
     int getLevel();
     vector <int> getStats();
+    vector <int> getMoves();
     
     void output();
+    void output(string);
 };
 
 //Class Constructor
@@ -63,8 +65,9 @@ void Player::addXP(int n) {
     xp = xp + n;
     while (xp >= toNextLvl()) { //If you have enough XP to hit the next level //Increment your level
         level++;
-        cout << "You have reached level " << level << endl; //Debugging
+        output("You have reached level " + to_string(level));
     }
+    setStats();
 }
 void Player::setStats() {
     switch (role) {
@@ -127,6 +130,29 @@ string Player::getRole() {
 vector <int> Player::getStats() {
     return stats;
 }
+
+vector <int> Player::getMoves() {
+    switch (role) {
+        case 0: {
+            int a[] = {15, 16, 18, 21};
+            vector<int> m(a, a + 4);
+            return m;
+        } case 1: {
+            int a[] = {0, 8, 11, 19};
+            vector<int> m(a, a + 4);
+            return m;
+        } case 2: {
+            int a[] = {1, 5, 4, 17};
+            vector<int> m(a, a + 4);
+            return m;
+        } default: {
+            int a[] = {0, 1, 2, 3};
+            vector<int> m(a, a + 4);
+            return m;
+        }
+    }
+}
+
 void Player::output() {
     cout << name << ", Level " << level << " " << getRole() << endl <<
             "Max HP: " << stats[0] << ", Max MP: " << stats[1] << endl <<
@@ -134,6 +160,17 @@ void Player::output() {
             "MAG: " << stats[3] << endl <<
             "DEF: " << stats[4] << endl <<
             "SPD: " << stats[5] << endl;
+}
+void Player::output(string s) {
+    int l = s.length();
+    string x = "";
+    for (int i = 0; i < l + 8; i++) {
+        x = x + "*";
+    }
+    cout << x << endl <<
+            "* - " << s << " - *" << endl <<
+            x << endl;
+    cin.get();
 }
 
 #endif /* PLAYER_H */

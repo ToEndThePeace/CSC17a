@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>Encounter.h</itemPath>
       <itemPath>Enemy.h</itemPath>
+      <itemPath>Move.h</itemPath>
       <itemPath>Player.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -30,6 +31,7 @@
     </logicalFolder>
     <itemPath>lib/enemyList.bin</itemPath>
     <itemPath>locs.bin</itemPath>
+    <itemPath>lib/moveList.bin</itemPath>
     <itemPath>lib/playerList.bin</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -46,9 +48,13 @@
       </item>
       <item path="Enemy.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Move.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/enemyList.bin" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lib/moveList.bin" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/playerList.bin" ex="false" tool="3" flavor2="0">
       </item>
@@ -81,9 +87,13 @@
       </item>
       <item path="Enemy.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Move.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/enemyList.bin" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lib/moveList.bin" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/playerList.bin" ex="false" tool="3" flavor2="0">
       </item>
