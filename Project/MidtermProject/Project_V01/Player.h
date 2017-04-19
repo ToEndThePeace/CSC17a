@@ -22,6 +22,8 @@ public:
     //Accessor Members
     string getName();
     string getRole();
+    int gRlNum();
+    int getXP();
     int getLevel();
     vector <int> getStats();
     vector <int> getMoves();
@@ -126,6 +128,12 @@ string Player::getRole() {
         default:
             return "Unknown";
     }
+}
+int Player::gRlNum() {
+    return role;
+}
+int Player::getXP() {
+    return xp;
 }
 vector <int> Player::getStats() {
     return stats;

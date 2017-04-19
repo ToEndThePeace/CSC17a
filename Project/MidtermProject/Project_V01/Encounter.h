@@ -51,7 +51,12 @@ Encounter::Encounter (Player &x, Enemy &y, vector<Move> &mv) {
     isWin = false;
     isLoss = false;
     p->setStats();
-    int newLvl = rand() % 6 + p->getLevel() - 4;
+    int newLvl;
+    if (p->getLevel() < 10) {
+        newLvl = rand() % p->getLevel();
+    } else {
+        newLvl = rand() % 6 + p->getLevel() - 4;
+    }
     setEnStat(newLvl > 0 ? newLvl : 1); //Sets level within 3 of player lvl
     turn();
 }
@@ -107,17 +112,22 @@ void Encounter::turn() {
             (m[pMV].type == 0 ? p->getStats()[2] : p->getStats()[3]) / 
             def * m[pMV].power) + 2);
     if (m[pMV].heal != 0)
-        uHL  = ceil((float(2) * p->getLevel() + 10) / 250 *
+        uHL  = ceil(((float(2) * p->getLevel() + 10) / 250 *
             (m[pMV].type == 0 ? p->getStats()[2] : p->getStats()[3]) /
-            p->getStats()[4] * m[pMV].heal + 2);
+            p->getStats()[4] * m[pMV].heal) + 2);
     if (m[eMV].power != 0)
-        eDMG = ceil((float(2) * lvl + 10) / 250 *
+        eDMG = ceil(((float(2) * lvl + 10) / 250 *
             (m[eMV].type == 0 ? e->atk : e->mag) /
-            p->getStats()[4] * m[eMV].power + 2);
+            p->getStats()[4] * m[eMV].power) + 2);
     if (m[eMV].heal != 0)
-        eHL  = ceil((float(2) * lvl + 10) / 250 *
+        eHL  = ceil(((float(2) * lvl + 10) / 250 *
             (m[eMV].type == 0 ? e->atk : e->mag) /
-            def * m[eMV].heal + 2);
+            def * m[eMV].heal) + 2);
+    
+    //Apply mana costs
+    p->mp[0] -= m[pMV].cost;
+    cMP      -= m[eMV].cost;  
+    
     /*/Debugging Lines
     cout << p->getStats()[2] << " " << p->getStats()[3] << endl;
     cout << atk << " " << mag << endl;
@@ -130,7 +140,7 @@ void Encounter::turn() {
         if (uHL != 0) output("You healed for " + to_string(uHL) + " points!");
         
         //Player Damage Phase
-        output("You deal " + to_string(uDMG) + " damage!");
+        if (uDMG != 0) output("You deal " + to_string(uDMG) + " damage!");
         
         if (cHP - uDMG <= 0) {
             //If the game is lost, enemy gets no turn
@@ -142,7 +152,7 @@ void Encounter::turn() {
             if (eHL != 0) output("Enemy healed for " + to_string(eHL) + " points!");
             
             //Enemy Damage Phase
-            output("Enemy deals " + to_string(eDMG) + " damage!");
+            if (eDMG != 0) output("Enemy deals " + to_string(eDMG) + " damage!");
             if (p->hp[0] - eDMG <= 0) {
                 p->hp[0] = 0;
                 isLoss = true;
@@ -157,7 +167,7 @@ void Encounter::turn() {
         if (eHL != 0) output("Enemy healed for " + to_string(eHL) + " points!");
         
         //Enemy Damage Phase
-        output("Enemy deals " + to_string(eDMG) + " damage!");
+        if (eDMG != 0) output("Enemy deals " + to_string(eDMG) + " damage!");
         
         if (p->hp[0] - eDMG <= 0) {
             //If the game is lost, player gets no turn
@@ -169,7 +179,7 @@ void Encounter::turn() {
             if (uHL != 0) output("You healed for " + to_string(uHL) + " points!");
             
             //Player Damage Phase
-            output("You deal " + to_string(uDMG) + " damage!");
+            if (uDMG != 0) output("You deal " + to_string(uDMG) + " damage!");
             if (cHP - uDMG <= 0) {
                 cHP = 0;
                 isWin = true;
@@ -179,6 +189,7 @@ void Encounter::turn() {
             }
         }
     }
+    
     
     //What to do if battle is won or lost
     if (isWin) {

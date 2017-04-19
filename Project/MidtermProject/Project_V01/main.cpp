@@ -27,6 +27,7 @@ vector <Player> loadPlayer();
 vector <Move> loadMvs();
 Enemy** loadEnemy();
 void newEnemy();
+void svPlyrs(vector<Player>);
 
 //Output Functions
 void output(string);
@@ -120,6 +121,10 @@ int main(int argc, char** argv) {
         delete[] enem[i];
     }
     delete[] enem;
+    
+    output("Saving characters...");
+    
+    svPlyrs(play);
     
     output("Thanks for playing!");
     
@@ -260,4 +265,19 @@ void output(string s) {
     cout << x << endl <<
             "* - " << s << " - *" << endl <<
             x << endl;
+}
+
+void svPlyrs(vector<Player> v) {
+    //Open the binary file for output
+    fstream playOut;
+    playOut.open("lib/playerList.bin", ios::out | ios::binary | ios::trunc);
+    
+    //Write file
+    for (int i = 0; i < v.size(); i++) {
+        playOut << v[i].getName() << " " << v[i].gRlNum() << " " <<
+                v[i].hp[0] << " " << v[i].mp[0] << " " << v[i].getXP() << " " <<
+                v[i].getLevel() << "\n";
+    }
+    
+    playOut.close();
 }
