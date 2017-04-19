@@ -43,6 +43,9 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+        </ccTool>
       </compileType>
       <item path="Encounter.h" ex="false" tool="3" flavor2="0">
       </item>

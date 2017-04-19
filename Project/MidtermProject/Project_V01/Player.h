@@ -154,12 +154,14 @@ vector <int> Player::getMoves() {
 }
 
 void Player::output() {
-    cout << name << ", Level " << level << " " << getRole() << endl <<
-            "Max HP: " << stats[0] << ", Max MP: " << stats[1] << endl <<
-            "ATK: " << stats[2] << endl <<
-            "MAG: " << stats[3] << endl <<
-            "DEF: " << stats[4] << endl <<
-            "SPD: " << stats[5] << endl;
+    cout << name << ", Level " << level << " " << getRole() << endl << left <<
+            setw(20) << "HP:  " + to_string(hp[0]) + " / " + to_string(hp[1]) <<
+            setw(20) << "MP:  " + to_string(mp[0]) + " / " + to_string(mp[1]) << 
+            endl <<
+            setw(20) << "ATK: " + to_string(stats[2]) << 
+            setw(20) << "MAG: " + to_string(stats[3]) << endl;
+            setw(20) << "DEF: " + to_string(stats[4]) << 
+            setw(20) << "SPD: " + to_string(stats[5]) << endl;
 }
 void Player::output(string s) {
     int l = s.length();
