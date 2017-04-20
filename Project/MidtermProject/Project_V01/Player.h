@@ -167,7 +167,7 @@ void Player::output() {
             setw(20) << "MP:  " + to_string(mp[0]) + " / " + to_string(mp[1]) << 
             endl <<
             setw(20) << "ATK: " + to_string(stats[2]) << 
-            setw(20) << "MAG: " + to_string(stats[3]) << endl;
+            setw(20) << "MAG: " + to_string(stats[3]) << endl <<
             setw(20) << "DEF: " + to_string(stats[4]) << 
             setw(20) << "SPD: " + to_string(stats[5]) << endl;
 }
@@ -180,7 +180,6 @@ void Player::output(string s) {
     cout << x << endl <<
             "* - " << s << " - *" << endl <<
             x << endl;
-    cin.get();
 }
 
 #endif /* PLAYER_H */

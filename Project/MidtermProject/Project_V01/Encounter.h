@@ -87,6 +87,7 @@ void Encounter::turn() {
     do {
         if (i == 1) output("Not enough mana.");
         output();
+        cin.get();
         output("Select a move:");
         for (int i = 0; i < 4; i++) {
             cout << i + 1 << ": " << m[p->getMoves()[i]].name << ", " <<
@@ -98,13 +99,15 @@ void Encounter::turn() {
         cin >> input;
         input--;
         pMV = p->getMoves()[input];
-        cout << m[pMV].name << " " << m[pMV].power <<  endl;
+        //cout << m[pMV].name << " " << m[pMV].power <<  endl;
         i = 1;
     } while (p->mp[0] < m[pMV].cost);
     do {
         input = rand() % 4;
         eMV = e->moves[input];
     } while (cMP < m[eMV].cost);
+    
+    cin.ignore(256, '\n');
     
     //Damage and healing calculation phase
     if (m[pMV].power != 0)
@@ -136,7 +139,8 @@ void Encounter::turn() {
     //Damage and healing application phase
     if (p->getStats()[5] >= spd) {
         //Player Heal Phase
-        p->hp[0] = p->hp[0] + uHL > p->hp[1] ? p->hp[0] = p->hp[1] : p->hp[0] + uHL;
+        p->hp[0] = p->hp[0] + uHL;
+        if (p->hp[0] > p->hp[1]) p->hp[0] = p->hp[1];
         if (uHL != 0) output("You healed for " + to_string(uHL) + " points!");
         
         //Player Damage Phase
@@ -148,7 +152,8 @@ void Encounter::turn() {
             isWin = true;
         } else { //Enemy's Turn
             //Enemy heal phase
-            cHP = cHP + eHL > mHP ? cHP = mHP : cHP + eHL;
+            cHP = cHP + eHL;
+            if (cHP > mHP) cHP = mHP;
             if (eHL != 0) output("Enemy healed for " + to_string(eHL) + " points!");
             
             //Enemy Damage Phase
@@ -163,7 +168,8 @@ void Encounter::turn() {
         }
     } else {
         //Enemy Heal Phase
-        cHP = cHP + eHL > mHP ? cHP = mHP : cHP + eHL;
+        cHP = cHP + eHL;
+        if (cHP > mHP) cHP = mHP;
         if (eHL != 0) output("Enemy healed for " + to_string(eHL) + " points!");
         
         //Enemy Damage Phase
@@ -175,7 +181,8 @@ void Encounter::turn() {
             isLoss = true;
         } else { //Player's turn
             //Player heal phase
-            p->hp[0] = p->hp[0] + uHL > p->hp[1] ? p->hp[0] = p->hp[1] : p->hp[0] + uHL;
+            p->hp[0] = p->hp[0] + uHL;
+            if (p->hp[0] > p->hp[1]) p->hp[0] = p->hp[1];
             if (uHL != 0) output("You healed for " + to_string(uHL) + " points!");
             
             //Player Damage Phase
@@ -238,7 +245,6 @@ void Encounter::output(string s) {
     cout << x << endl <<
             "* - " << s << " - *" << endl <<
             x << endl;
-    cin.get();
 }
 
 #endif /* ENCOUNTER_H */
