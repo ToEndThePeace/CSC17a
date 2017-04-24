@@ -13,10 +13,15 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 #include <time.h>
 #include <ctime>
+#include <vector>
 
 using namespace std;
+
+#include "Customer.h"
+#include "Employee.h"
 
 void p1();
 void p2();
@@ -27,9 +32,8 @@ void p6();
 void p7();
 
 
-void Menu();
+int Menu();
 int getN();
-float getN();
 string getS();
 
 int main(int argc, char** argv) {
@@ -74,24 +78,37 @@ int main(int argc, char** argv) {
 }
 
 void p1() {
-    struct Customer {
-        string name, adrs;
-        int acNum;
-        float bal;
-        vector<float> chks;
-        vector<float> depsts;
-    };
-    Customer c1;
-    cout << "Balance Checker" << endl << endl <<
-            "Please input your: " << endl <<
-            "Name";
-    c1.name = getS();
+    Customer c1(0);
 }
+void p2(){
+    cout << "Paycheck Calculator" << endl;
+    
+    bool v(true);
+    vector<Employee> emps;
+    do {
+        cout << "New Employee:" << endl;
+        Employee e;
+        v = e.setInfo();
+        if (v == true) emps.push_back(e);
+    } while (v == true);
+    cout << "Invalid input." << endl <<
+            "Here are all employee paychecks." << endl;
+    for (int i = 0; i < emps.size(); i++) {
+        emps[i].paycheck();
+        cin.ignore(256, '\n');
+        cin.get();
+    }
+}
+void p3(){}
+void p4(){}
+void p5(){}
+void p6(){}
+void p7(){}
 
-void Menu() {
+int Menu() {
     cout << "Choose a problem:" << endl <<
-            "1: Problem 1" << endl <<
-            "2: Problem 2" << endl <<
+            "1: Balance Calculator" << endl <<
+            "2: Paycheck Calculator" << endl <<
             "3: Problem 3" << endl <<
             "4: Problem 4" << endl <<
             "5: Problem 5" << endl <<
@@ -102,12 +119,6 @@ void Menu() {
 }
 int getN() {
     int n;
-    cout << ">> ";
-    cin >> n;
-    return n;
-}
-float getN() {
-    float n;
     cout << ">> ";
     cin >> n;
     return n;
