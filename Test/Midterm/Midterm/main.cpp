@@ -22,6 +22,7 @@ using namespace std;
 
 #include "Customer.h"
 #include "Employee.h"
+#include "statsResult.h"
 
 void p1();
 void p2();
@@ -31,6 +32,8 @@ void p5();
 void p6();
 void p7();
 
+void sort(int *, int);
+void swap(int &, int &);
 
 int Menu();
 int getN();
@@ -99,17 +102,51 @@ void p2(){
         cin.get();
     }
 }
-void p3(){}
+void p3(){
+    int n;
+    cout << "Stat Calculator" << endl << 
+            "How many values are in your list? ";
+    cin >> n;
+    
+    int *ary = new int[n];
+    
+    cout << "Please enter " << n << " numbers: " << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "> ";
+        cin >> ary[i];
+    }
+    
+    //Sort the array to perform statistical analysis on it
+    sort(ary, n);
+    
+    //Perform the analysis and return a structure of results
+    statsResult *res = avgMedMode(ary, n);
+    
+    delete[] ary, res;
+}
 void p4(){}
 void p5(){}
 void p6(){}
 void p7(){}
 
+void sort(int *ary, int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (ary[j] < ary[i]) swap(ary[i], ary[j]);
+        }
+    }
+}
+void swap(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
 int Menu() {
     cout << "Choose a problem:" << endl <<
             "1: Balance Calculator" << endl <<
             "2: Paycheck Calculator" << endl <<
-            "3: Problem 3" << endl <<
+            "3: Statistical Analysis" << endl <<
             "4: Problem 4" << endl <<
             "5: Problem 5" << endl <<
             "6: Problem 6" << endl <<
