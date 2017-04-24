@@ -15,22 +15,34 @@ using namespace std;
 #include "Enemy.h"
 #include "Move.h"
 #include "Encounter.h"
+#include "Loc.h"
 
 //Global Constants
-int NUM_RACES = 6;
-int NUM_TYPES = 3;
+int NUM_LOCS = 6;
+int NUM_ENS = 4;
 
 //Function Prototypes
+void journey(Player &, const vector<Loc> &, Enemy**, const vector<Move> &);
+
+//Menu Functions
+void newChar(vector<Player> &);
+void loadChar(vector<Player> &, int &);
+void delChar(vector<Player> &);
 
 //File I/O Functions
 vector <Player> loadPlayer();
 vector <Move> loadMvs();
 Enemy** loadEnemy();
-void newEnemy();
-void svPlyrs(vector<Player>);
+vector <Loc> loadLocs();
+void svPlyrs(vector<Player> &);
 
 //Output Functions
 void output(string);
+void output(string, int);
+void menuLine(int, string);
+void inptLine(int &);
+void inptLine(string &);
+void mPause();
 
 //Main Program
 int main(int argc, char** argv) {
@@ -43,87 +55,67 @@ int main(int argc, char** argv) {
     vector <Move> move = loadMvs();
     //Load Player Data
     vector <Player> play = loadPlayer();
+    //Load Map Data
+    vector <Loc> map = loadLocs();
     
+    int x(1); //Used for menu inputs
     
-    int x; //Used for menu inputs
+    output("Welcome to Rogue", 1);
     
-    output("Rogue");
-    
-    output("What would you like to do?");
-    cout << "1: Load Existing Character" << endl <<
-            "2: Create New Character" << endl <<
-            "3: Exit" << endl <<
-            "4: New Enemy" << endl <<
-            "5: Output Enemy Names" << endl <<
-            "6: Random Encounter" << endl <<
-            "7: Output Player List" << endl <<
-            "8: New Encounter" << endl <<
-            ">> ";
-    cin >> x;
-    int input;
-    switch (x) {
-        case 1:
-            output("Which character?");
-            for (int i = 0; i < play.size(); i++) {
-                cout << i + 1 << ": " << play[i].getName() << endl;
+    do {
+        int curChar(-1); //Used to store current character index as session var
+        
+        if (x < 1 || x > 3) output("Invalid choice.");
+        output("What would you like to do?");
+        menuLine(1, "Create New Character");
+        menuLine(2, "Load Character");
+        menuLine(3, "Delete Character");
+        menuLine(4, "Exit");
+        inptLine(x);
+        
+        int input;
+        switch (x) {
+            case 1:
+                newChar(play);
+            case 2:
+            {
+                loadChar(play, curChar);
+                int swt(1);
+                do {
+                    journey(play[curChar], map, enem, move);
+                    output("Embark on another adventure?");
+                    menuLine(1, "Yes");
+                    menuLine(2, "No");
+                    inptLine(swt);
+                } while (swt == 1);
+                break;
             }
-            cout << ">> ";
-            cin >> input;
-            play[input - 1].output();
-            break;
-        case 2:
-            cout << "Creating character..." << endl;
-            break;
-        case 3:
-            cout << "Peace out, fam." << endl;
-            break;
-        case 4:
-            newEnemy();
-            break;
-        case 5:
-            for (int i = 0; i < NUM_RACES; i++) {
-                for (int j = 0; j < NUM_TYPES; j++) {
-                    cout << enem[i][j].getName() << endl;
+            case 3:
+                //delChar(play);
+                for (int i = 0; i < NUM_LOCS; i++) {
+                    for (int j = 0; j < NUM_ENS; j++) {
+                        cout << enem[i][j].name << endl;
+                    }
                 }
-            }
-            break;
-        case 6:
-        {
-            int rLoc = rand() % NUM_RACES;
-            int rEnm = rand() % NUM_TYPES;
-            output(enem[rLoc][rEnm].getName());
-            break;
-        }
-        case 7:
-            for (int i = 0; i < play.size(); i++) {
-                cout << play[i].getName() << ", Level " << play[i].getLevel() <<
-                        endl;
-            }
-            break;
-        case 8:
-        {
-            char yorn('y');
-            do {
-                Encounter battle(play[/*rand() % play.size()*/1], 
-                        enem[rand() % NUM_RACES][rand() % NUM_TYPES], move);
-                output("Play again? y/n");
-                cout << ">> ";
-                cin >> yorn;
-            } while (yorn != 'n');
-            break;
-        }
-        default:
-            break;
-    } //*/
+                break;
+            case 4:
+                for (int i = 0; i < NUM_LOCS; i++) {
+                    for (int j = 0; j < NUM_ENS; j++) {
+                        cout << i << j << enem[i][j].name << endl;
+                    }
+                }
+            default:
+                break;
+        } //*/
+    } while (x != 4);
 
     //Cleanup Crew
-    for (int i = 0; i < NUM_RACES; i++) {
+    for (int i = 0; i < NUM_LOCS; i++) {
         delete[] enem[i];
     }
     delete[] enem;
     
     output("Saving characters...");
-    
     svPlyrs(play);
     
     output("Thanks for playing!");
@@ -133,6 +125,86 @@ int main(int argc, char** argv) {
 }
 
 //Function Declarations
+void journey(Player &p, const vector<Loc> &map, Enemy** enem, const vector<Move> &mv) {
+    p.output();
+    mPause();
+    
+    int input, l;
+    
+    output("Choose your adventure!");
+    for (int i = 0; i < map.size(); i++) {
+        if (map[i].lvl <= p.getLevel()) menuLine(i + 1, map[i].name);
+    }
+    inptLine(input);
+    
+    l = input - 1;
+    output("You have arrived at the " + map[l].name + "!", 1);
+    output("If you defeat 4 enemies, the boss will find you.");
+    output("Tread lightly...");
+    
+    //Now we need 4 encounters with random enemies
+    int count(0);
+    bool isOver(false);
+    int r = rand() % 3;
+    /*do {
+        //Encounter battle(p, enem[l][rand() % 3], mv); //Encounter constructor
+        
+        //If game is lost, breaks out of loop
+        isOver = battle.isLoss;
+    } while (!isOver && count < 4);*/
+    
+    //Now we need the boss
+    if (!isOver) {
+        cout << map[l].name << " " << l << " " << r << " " << enem[l][r].name << endl;
+    }
+}
+
+void newChar(vector<Player> &v) {
+    int input;
+    
+    do {
+        output("Choose a Class:");
+        menuLine(1, "Mage");
+        menuLine(2, "Warrior");
+        menuLine(3, "Rogue");
+        inptLine(input);
+    } while (input < 1 || input > 3);
+    input--;
+    int nRl = input;
+    input = 1;
+    string y;
+    do {
+        output("Enter a Name!");
+        inptLine(y);
+        output("Is \"" + y + "\" okay?");
+        menuLine(1, "Yes");
+        menuLine(2, "No");
+        inptLine(input);
+    } while (input != 1);
+    
+    //NOW I GOTTA SAVE THE NEW USER'S INFO
+    Player nPl(y, nRl);
+    v.push_back(nPl);
+}
+void loadChar(vector<Player> &v, int &cIndx) {
+    int input(1);
+    do {
+        if (input != 1) output("Invalid choice.");
+        output("Select a Character:");
+        for (int i = 0; i < v.size(); i++) {
+            menuLine(i + 1, v[i].getName());
+        }
+        inptLine(input);
+    } while (input < 1 || input > v.size());
+    input -= 1;
+    
+    cIndx = input;
+}
+void delChar(vector<Player> &v) {
+    
+}
+
+//File I/O
 vector <Move> loadMvs() {
     //Open lib file
     fstream binMvs;
@@ -189,7 +261,7 @@ Enemy** loadEnemy() {
     binEnems.open("lib/enemyList.bin", ios::in | ios::binary);
     
     //Create 2d pointer array of enemies
-    Enemy** ary = new Enemy*[NUM_RACES];
+    Enemy** ary = new Enemy*[NUM_LOCS];
     
     //Variables to read in file stream
     int loc, indx, hp, mp, atk, mag, def, spd, xp, m1, m2, m3, m4;
@@ -197,77 +269,46 @@ Enemy** loadEnemy() {
     string race, cls;
     
     //Read in the file
+    int count(0);
     while (binEnems >> loc >> indx >> race >> cls >> hp >> mp >> 
                        atk >> mag  >> def >> spd >> boss >> xp >>
                        m1 >> m2 >> m3 >> m4) {
-        //cout << loc << race << cls << endl;
-        ary[loc] = new Enemy[NUM_TYPES];
-        for (int i = 0; i < NUM_TYPES; i++) {
-            ary[loc][i].setEnemy(loc, race, cls, hp, mp, atk, mag, 
-                                 def, spd, boss, xp, indx, m1, m2, m3, m4);
-        }
+        cout << loc << race << cls << endl;
+        ary[loc] = new Enemy[NUM_ENS]();
+        //for (int i = 0; i < NUM_ENS; i++) {
+        ary[loc][indx - 4 * loc].setEnemy(loc, race, cls, hp, mp, atk, mag, 
+                                          def, spd, boss, xp, indx, m1, m2, m3, m4);
+        //}
+        cout << ary[loc][indx - 4 * loc].name << endl;
     }
     
     binEnems.close();
     
     return ary;
 }
-/**
- * Adds a new enemy to the enemyList.bin file until user says stop
- */
-void newEnemy() {
-    //Open Data File
-    fstream binEnems;
-    binEnems.open("lib/enemyList.bin", ios::in     | ios::out | 
-                                       ios::binary | ios::app);
-    string text;
-    char input('y');
-    while (input == 'y') {
-        string loc, race, cls, hp, mp, atk, mag, def, spd;
-        cout << "Loc: ";
-        cin >> loc;
-        cout << "Race: ";
-        cin >> race;
-        cout << endl << "Class: ";
-        cin >> cls;
-        cout << endl << "HP: ";
-        cin >> hp;
-        cout << endl << "MP: ";
-        cin >> mp;
-        cout << endl << "ATK: ";
-        cin >> atk;
-        cout << endl << "MAG: ";
-        cin >> mag;
-        cout << endl << "DEF: ";
-        cin >> def;
-        cout << endl << "SPD: ";
-        cin >> spd;
-        string text = loc + " " + race + " " + cls + " " + hp + " " + mp + " " +
-                atk + " " + mag + " " + def + " " + spd + "\n";
-        binEnems.write(text.c_str(), text.size());
-        cout << "Again? ";
-        cin >> input;
+vector<Loc> loadLocs() {
+    //Open Binary File
+    fstream binLocs;
+    binLocs.open("lib/locList.bin", ios::in | ios::binary);
+    
+    //Create Vector of Locations
+    vector<Loc> ary;
+    
+    //Variables to read in file stream
+    int indx, lvl;
+    string n1, n2;
+    
+    //Read in the file
+    while (binLocs >> indx >> lvl >> n1 >> n2) {
+        Loc nLoc(indx, lvl, n1, n2);
+        ary.push_back(nLoc);
     }
     
-    //Close data file
-    binEnems.close();
+    binLocs.close();
+    
+    return ary;
 }
-/**
- * Used to display decorative system messages in console
- * @param s the string to display
- */
-void output(string s) {
-    int l = s.length();
-    string x = "";
-    for (int i = 0; i < l + 8; i++) {
-        x = x + "*";
-    }
-    cout << x << endl <<
-            "* - " << s << " - *" << endl <<
-            x << endl;
-}
-
-void svPlyrs(vector<Player> v) {
+void svPlyrs(vector<Player> &v) {
     //Open the binary file for output
     fstream playOut;
     playOut.open("lib/playerList.bin", ios::out | ios::binary | ios::trunc);
@@ -280,4 +321,45 @@ void svPlyrs(vector<Player> v) {
     }
     
     playOut.close();
+}
+
+/**
+ * Used to display decorative system messages in console
+ * @param s the string to display
+ */
+void output(string s, int p = 0) {
+    int l = s.length();
+    string x = "";
+    for (int i = 0; i < l + 8; i++) {
+        x = x + "*";
+    }
+    cout << x << endl <<
+            "* - " << s << " - *" << endl <<
+            x << endl;
+    if (p == 1) mPause();
+}
+void output(string s) {
+    int l = s.length();
+    string x = "";
+    for (int i = 0; i < l + 8; i++) {
+        x = x + "*";
+    }
+    cout << x << endl <<
+            "* - " << s << " - *" << endl <<
+            x << endl;
+}
+void menuLine(int n, string s) {
+    cout << setw(2) << right << n << ": " << s << endl;
+}
+void inptLine(int &n) {
+    cout << ">>> ";
+    cin >> n;
+}
+void inptLine(string &n) {
+    cout << ">>> ";
+    cin >> n;
+}
+void mPause() {
+    cin.ignore(256, '\n');
+    cin.get();
 }

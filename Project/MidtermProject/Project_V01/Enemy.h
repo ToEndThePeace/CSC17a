@@ -17,19 +17,17 @@
 class Enemy {
 private:
     int loc;
-    std::string race, cls;
     bool boss;
 public:
     int hp, mp, atk, mag, def, spd, xp, indx;
     int moves[4];
+    string name;
     
     Enemy();
-    Enemy(int, int);
     void setEnemy(int, string, string, int, int, int, int, int, int, bool, int, int, int, int, int, int);
     //Debugging functions
     int getLoc();
     bool isBoss();
-    string getName();
 };
 
 Enemy::Enemy() {
@@ -40,8 +38,7 @@ Enemy::Enemy() {
 void Enemy::setEnemy(int a, string b, string c, int d, int e, int f, int g,
                      int h, int i, bool j, int k, int l, int m, int n, int o, int p) {
     loc = a;
-    race = b;
-    cls = c;
+    name = b + ' ' + c;
     hp = d;
     mp = e;
     atk = f;
@@ -62,9 +59,6 @@ int Enemy::getLoc() {
 }
 bool Enemy::isBoss() {
     return boss;
-}
-string Enemy::getName() {
-    return race + " " + cls;
 }
 
 #endif /* ENEMY_H */

@@ -10,7 +10,6 @@ private:
     int xp, level;
 public:
     Player();
-    Player(string, int);
     Player(string, int, int, int, int, int);
     
     vector <int> hp, mp; //Have 2 values, current and max
@@ -36,7 +35,7 @@ public:
 Player::Player() {
 }
 Player::Player(string s, int n, int cHP = 0, int cMP = 0,
-               int cXP = 0, int l = 0) {
+               int cXP = 0, int l = 1) {
     name = s;
     role = n;
     level = l;

@@ -4,11 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Encounter.h</itemPath>
-      <itemPath>Enemy.h</itemPath>
-      <itemPath>Loc.h</itemPath>
-      <itemPath>Move.h</itemPath>
-      <itemPath>Player.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -30,10 +25,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>lib/enemyList.bin</itemPath>
-    <itemPath>lib/locList.bin</itemPath>
-    <itemPath>lib/moveList.bin</itemPath>
-    <itemPath>lib/playerList.bin</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -44,28 +35,7 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
-        <ccTool>
-          <commandlineTool>g++</commandlineTool>
-        </ccTool>
       </compileType>
-      <item path="Encounter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Enemy.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Loc.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Move.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Player.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/enemyList.bin" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/locList.bin" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/moveList.bin" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/playerList.bin" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -89,24 +59,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="Encounter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Enemy.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Loc.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Move.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Player.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/enemyList.bin" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/locList.bin" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/moveList.bin" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lib/playerList.bin" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>

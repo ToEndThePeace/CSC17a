@@ -29,12 +29,13 @@ private:
     
     //Integers to store numbers in after damage calculation
     int uDMG, eDMG, uHL, eHL, xpYield, loc;
-    bool isWin, isLoss;
     
     //Integers to store enemy stats after level calculation
     int lvl, atk, mag, def, spd, cHP, mHP, cMP, mMP;
 public:
-    Encounter(Player &, Enemy &, vector<Move>&);
+    bool isWin, isLoss;
+    
+    Encounter(Player &, Enemy &, const vector<Move>&);
     
     void setEnStat(int); //Where int is a level to set stats to
     
@@ -44,20 +45,15 @@ public:
     void output(string);
 };
 
-Encounter::Encounter (Player &x, Enemy &y, vector<Move> &mv) {
+Encounter::Encounter (Player &x, Enemy &y, const vector<Move> &mv) {
     p = &x; //Referencing original player object
     e = &y;
     m = mv;
     isWin = false;
     isLoss = false;
     p->setStats();
-    int newLvl;
-    if (p->getLevel() < 10) {
-        newLvl = rand() % p->getLevel();
-    } else {
-        newLvl = rand() % 6 + p->getLevel() - 4;
-    }
-    setEnStat(newLvl > 0 ? newLvl : 1); //Sets level within 3 of player lvl
+    int nLv = rand() % 2 + p->getLevel() - 2;
+    setEnStat(nLv > 0 ? nLv : 1); //Sets level within 3 of player lvl
     turn();
 }
 
@@ -87,13 +83,13 @@ void Encounter::turn() {
     do {
         if (i == 1) output("Not enough mana.");
         output();
-        cin.get();
         output("Select a move:");
         for (int i = 0; i < 4; i++) {
-            cout << i + 1 << ": " << m[p->getMoves()[i]].name << ", " <<
-                    m[p->getMoves()[i]].power << " POW, " <<
-                    m[p->getMoves()[i]].heal << " HEAL, " <<
-                    m[p->getMoves()[i]].cost << " MP" << endl;
+            cout << i + 1 << ": " << left <<
+                    setw(13) << m[p->getMoves()[i]].name << right <<
+                    setw(3) << m[p->getMoves()[i]].power << setw(5) << " POW " <<
+                    setw(3) << m[p->getMoves()[i]].heal << setw(6) << " HEAL " <<
+                    setw(3) << m[p->getMoves()[i]].cost * -1 << setw(4) << " MP " << endl;
         }
         cout << ">> ";
         cin >> input;
@@ -107,8 +103,6 @@ void Encounter::turn() {
         eMV = e->moves[input];
     } while (cMP < m[eMV].cost);
     
-    cin.ignore(256, '\n');
-    
     //Damage and healing calculation phase
     if (m[pMV].power != 0)
         uDMG = ceil(((float(2) * p->getLevel() + 10) / 250 * 
@@ -119,17 +113,19 @@ void Encounter::turn() {
             (m[pMV].type == 0 ? p->getStats()[2] : p->getStats()[3]) /
             p->getStats()[4] * m[pMV].heal) + 2);
     if (m[eMV].power != 0)
-        eDMG = ceil(((float(2) * lvl + 10) / 250 *
+        eDMG = ceil(((float(2) * lvl) / 250 *
             (m[eMV].type == 0 ? e->atk : e->mag) /
-            p->getStats()[4] * m[eMV].power) + 2);
+            p->getStats()[4] * m[eMV].power));
     if (m[eMV].heal != 0)
-        eHL  = ceil(((float(2) * lvl + 10) / 250 *
+        eHL  = ceil(((float(2) * lvl) / 250 *
             (m[eMV].type == 0 ? e->atk : e->mag) /
-            def * m[eMV].heal) + 2);
+            def * m[eMV].heal));
     
     //Apply mana costs
     p->mp[0] -= m[pMV].cost;
-    cMP      -= m[eMV].cost;  
+    cMP      -= m[eMV].cost;
+    if (p->mp[0] > p->mp[1]) p->mp[0] = p->mp[1];
+    if (cMP > mMP) cMP = mMP;
     
     /*/Debugging Lines
     cout << p->getStats()[2] << " " << p->getStats()[3] << endl;
@@ -142,9 +138,11 @@ void Encounter::turn() {
         p->hp[0] = p->hp[0] + uHL;
         if (p->hp[0] > p->hp[1]) p->hp[0] = p->hp[1];
         if (uHL != 0) output("You healed for " + to_string(uHL) + " points!");
+        cin.get();
         
         //Player Damage Phase
         if (uDMG != 0) output("You deal " + to_string(uDMG) + " damage!");
+        cin.get();
         
         if (cHP - uDMG <= 0) {
             //If the game is lost, enemy gets no turn
@@ -155,9 +153,11 @@ void Encounter::turn() {
             cHP = cHP + eHL;
             if (cHP > mHP) cHP = mHP;
             if (eHL != 0) output("Enemy healed for " + to_string(eHL) + " points!");
+            cin.get();
             
             //Enemy Damage Phase
             if (eDMG != 0) output("Enemy deals " + to_string(eDMG) + " damage!");
+            cin.get();
             if (p->hp[0] - eDMG <= 0) {
                 p->hp[0] = 0;
                 isLoss = true;
@@ -171,9 +171,11 @@ void Encounter::turn() {
         cHP = cHP + eHL;
         if (cHP > mHP) cHP = mHP;
         if (eHL != 0) output("Enemy healed for " + to_string(eHL) + " points!");
+        cin.get();
         
         //Enemy Damage Phase
         if (eDMG != 0) output("Enemy deals " + to_string(eDMG) + " damage!");
+        cin.get();
         
         if (p->hp[0] - eDMG <= 0) {
             //If the game is lost, player gets no turn
@@ -184,9 +186,11 @@ void Encounter::turn() {
             p->hp[0] = p->hp[0] + uHL;
             if (p->hp[0] > p->hp[1]) p->hp[0] = p->hp[1];
             if (uHL != 0) output("You healed for " + to_string(uHL) + " points!");
+            cin.get();
             
             //Player Damage Phase
             if (uDMG != 0) output("You deal " + to_string(uDMG) + " damage!");
+            cin.get();
             if (cHP - uDMG <= 0) {
                 cHP = 0;
                 isWin = true;
@@ -217,7 +221,7 @@ void Encounter::turn() {
 
 
 void Encounter::output() {
-    cout << setw(30) << left << p->getName() << setw(30) << right << e->getName() << endl <<
+    cout << setw(30) << left << p->getName() << setw(30) << right << e->name << endl <<
             
         "Lvl " << setw(3) << left << p->getLevel() << 
         setw(46) << left << " " + p->getRole() << "Lvl " << 
