@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-MacOSX
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-MacOSX
-CND_ARTIFACT_NAME_Debug=midterm
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/midterm
+CND_ARTIFACT_NAME_Debug=p_factorials
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/p_factorials
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-MacOSX/package
-CND_PACKAGE_NAME_Debug=midterm.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/midterm.tar
+CND_PACKAGE_NAME_Debug=pfactorials.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/pfactorials.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-MacOSX
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
-CND_ARTIFACT_NAME_Release=midterm
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/midterm
+CND_ARTIFACT_NAME_Release=p_factorials
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/p_factorials
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
-CND_PACKAGE_NAME_Release=midterm.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/midterm.tar
+CND_PACKAGE_NAME_Release=pfactorials.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/pfactorials.tar
 #
 # include compiler specific variables
 #

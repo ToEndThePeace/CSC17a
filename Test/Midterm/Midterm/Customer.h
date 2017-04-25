@@ -81,8 +81,6 @@ void Customer::receipt() {
             "Deposits: ";
     for (int i = 0; i < depsts.size(); i++) cout << "$" << depsts[i] << " ";
     cout << endl;
-    cin.ignore(256, '\n');
-    cin.get();
 }
 
 #endif /* CUSTOMER_H */

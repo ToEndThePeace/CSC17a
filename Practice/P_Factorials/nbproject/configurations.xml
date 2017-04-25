@@ -4,10 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Customer.h</itemPath>
-      <itemPath>Employee.h</itemPath>
-      <itemPath>Encrypt.h</itemPath>
-      <itemPath>statsResult.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -29,7 +25,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>../MdtrmCSC17aSpr17.txt</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -41,17 +36,7 @@
       </toolsSet>
       <compileType>
       </compileType>
-      <item path="../MdtrmCSC17aSpr17.txt" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Customer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Employee.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Encrypt.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="statsResult.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -74,17 +59,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="../MdtrmCSC17aSpr17.txt" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Customer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Employee.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Encrypt.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="statsResult.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

@@ -23,14 +23,26 @@ struct statsResult {
     int nModes, maxFreq;
     
     statsResult();
-    output();
+    statsResult(int *, int);
+    void output();
 };
 statsResult::statsResult() {
     avg = 0;
     nModes = 0;
     maxFreq = 0;
 }
-statsResult::output() {
+statsResult::statsResult(int *ary, int n) {
+    avg = 0;
+    nModes = 0;
+    maxFreq = 0;
+    
+    data = new int[n];
+    for (int i = 0; i < n; i++) {
+        data[i] = ary[i];
+    }
+    size = n;
+}
+void statsResult::output() {
    cout << "Analysis of List: " << endl <<
             "[";
     for (int i = 0; i < size; i++) {
@@ -50,10 +62,7 @@ statsResult::output() {
 }
 
 statsResult *avgMedMode(int *ary, int n) {
-    statsResult *res;
-    
-    res->data = ary;
-    res->size = n;
+    statsResult *res = new statsResult(ary, n);
     
     //Calculate Average
     int sum(0);
@@ -61,8 +70,6 @@ statsResult *avgMedMode(int *ary, int n) {
         sum += ary[i];
     }
     res->avg = static_cast<float>(sum) / n;
-    
-    cout << res->avg << endl;
     
     //Calculate Median
     if (n % 2 == 0) { //Even number of ints
@@ -72,16 +79,16 @@ statsResult *avgMedMode(int *ary, int n) {
     }
     
     //Calculate Mode(s)
-    vector<int> a, b; //Modes and frequency, respectively
+    vector<int> a(1, 0), b(1, 0); //Modes and frequency, respectively
     
     //This loop finds all potential modes and stores them 
     //and their frequencies into vectors
-    for (int i = 0; i < n; i++) { //the whole array input
+    /*for (int i = 0; i < n; i++) { //the whole array input
         for (int j = 0; j < i; j++) { //the array searched so far
             if (ary[i] == ary[j]) { //If number has already been seen
                 if (a.empty()) { //First potential mode found
                     a.push_back(ary[i]);
-                    b.push_back(2);
+                    b.push_back(1);
                 } else { //Any modes found after that
                     for (int x = 0; x < a.size(); x++) {
                         if (a[x] == ary[i]) { //If mode already exists
@@ -89,13 +96,40 @@ statsResult *avgMedMode(int *ary, int n) {
                             b[x]++;
                         } else { //If first time finding this mode
                             a.push_back(ary[i]);
-                            b.push_back(2);
+                            b.push_back(1);
                         }
                     }
                 }
             }
         }
+    }*/
+    for (int i = 0; i < n; i++) {//To iterate over each array value
+        for (int j = 0; j < i; j++) {//To check each value against all past values
+            if (ary[i] == ary[j]) {//Found a match
+                if (b[0] == 0) {//If no mode frequency has been found (first mode))
+                    a[0] = ary[i];
+                    b[0] = 2;
+                } else {
+                    for (int x = 0; x < a.size(); x++) {//Check if mode has been found already
+                        if (a[x] == ary[i]) {//Mode is already in vector
+                            b[x]++;
+                            x = a.size();
+                        } else if (x == a.size() - 1) {//It's not, so we add a new entry
+                            a.push_back(ary[i]);
+                            b.push_back(1);
+                        }
+                    }
+                }
+                j = i;
+            }
+        }
     }
+    /* Debugging
+    for (int i = 0; i < a.size(); i++) {
+        cout << a[i] << '(' << b[i] << ") ";
+    }
+    cout << endl;
+     * */
     
     //This loop aims to find the maxFreq and number of modes
     res->maxFreq = 0;

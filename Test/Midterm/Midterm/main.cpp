@@ -17,12 +17,13 @@
 #include <time.h>
 #include <ctime>
 #include <vector>
-
+#include <float.h>
 using namespace std;
 
 #include "Customer.h"
 #include "Employee.h"
 #include "statsResult.h"
+#include "Encrypt.h"
 
 void p1();
 void p2();
@@ -45,6 +46,7 @@ int main(int argc, char** argv) {
     
     do {
         inp = Menu();
+        cout << endl;
         switch (inp) {
             case 1:
                 p1();
@@ -68,12 +70,13 @@ int main(int argc, char** argv) {
                 p7();
                 break;
             case 8:
-                cout << "Goodbye" << endl;
+                cout << "Goodbye forever I guess" << endl;
                 break;
             default:
                 cout << "Invalid selection.";
         }
-        
+        cin.ignore(256, '\n');
+        cin.get();
     } while (inp < 8);
     
     
@@ -83,7 +86,7 @@ int main(int argc, char** argv) {
 void p1() {
     Customer c1(0);
 }
-void p2(){
+void p2() {
     cout << "Paycheck Calculator" << endl;
     
     bool v(true);
@@ -102,7 +105,7 @@ void p2(){
         cin.get();
     }
 }
-void p3(){
+void p3() {
     int n;
     cout << "Stat Calculator" << endl << 
             "How many values are in your list? ";
@@ -122,12 +125,43 @@ void p3(){
     //Perform the analysis and return a structure of results
     statsResult *res = avgMedMode(ary, n);
     
-    delete[] ary, res;
+    delete[] ary;
+    delete[] res;
 }
-void p4(){}
-void p5(){}
-void p6(){}
-void p7(){}
+void p4() {
+    cout << "Encryption Algorithm" << endl;
+    
+    string s;
+    int input;
+    do {
+        cout << "Enter a number to encrypt." << endl <<
+                "(Encryption will loop until invalid number is entered.)" << endl;
+        cin >> s;
+        if (canEncrypt(s)) {
+            encrypt(s);
+            cout << "Encrypted: " << s << endl;
+        } else {
+            cout << "Invalid entry." << endl;
+        }
+        cin.ignore(256, '\n');
+        cin.get();
+    } while (canEncrypt(s));
+}
+void p5() {
+    cout << "Largest Factorials Possible for Data Types:" << endl <<
+            "Signed Char:    5!" << endl <<
+            "Unsigned Char:  5!" << endl <<
+            "Signed Short:   7!" << endl <<
+            "Unsigned Short: 8!" << endl <<
+            "Signed Int:     12!" << endl <<
+            "Unsigned Int:   12!" << endl <<
+            "Signed Long:    20!" << endl <<
+            "Unsigned Long:  20!" << endl <<
+            "Float:          12!" << endl <<
+            "Double:         20!" << endl;
+}
+void p6() {}
+void p7() {}
 
 void sort(int *ary, int n) {
     for (int i = 0; i < n; i++) {
@@ -147,8 +181,8 @@ int Menu() {
             "1: Balance Calculator" << endl <<
             "2: Paycheck Calculator" << endl <<
             "3: Statistical Analysis" << endl <<
-            "4: Problem 4" << endl <<
-            "5: Problem 5" << endl <<
+            "4: Encryption" << endl <<
+            "5: Factorial Limits" << endl <<
             "6: Problem 6" << endl <<
             "7: Problem 7" << endl <<
             "8: Exit" << endl;
