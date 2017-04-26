@@ -7,6 +7,7 @@
       <itemPath>Customer.h</itemPath>
       <itemPath>Employee.h</itemPath>
       <itemPath>Encrypt.h</itemPath>
+      <itemPath>Primes.h</itemPath>
       <itemPath>statsResult.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -49,6 +50,8 @@
       </item>
       <item path="Encrypt.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Primes.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="statsResult.h" ex="false" tool="3" flavor2="0">
@@ -81,6 +84,8 @@
       <item path="Employee.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Encrypt.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Primes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
