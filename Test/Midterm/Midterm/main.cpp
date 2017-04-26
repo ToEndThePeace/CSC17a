@@ -164,8 +164,8 @@ void p5() {
             "Unsigned Int:   12!" << endl <<
             "Signed Long:    20!" << endl <<
             "Unsigned Long:  20!" << endl <<
-            "Float:          12!" << endl <<
-            "Double:         20!" << endl;
+            "Float:          12!" << endl << // 33! WRONG (2^127  bytes)
+            "Double:         20!" << endl;   //170! WRONG (2^1024 bytes)
 }
 void p6() {
     cout << "Number Conversions" << endl << 
@@ -186,13 +186,13 @@ void p6() {
             "       Binary: 0.0010010(1001)" << endl <<
             "        Octal: 0.112(3157)" << endl <<
             "  Hex Literal: 0.25(3)" << endl <<
-            "    Hex Float: 0x3E14CCC" << endl <<
+            "    Hex Float: 0x3E14CCCC" << endl <<
             endl <<
             "Decimal Given: -0.1453125" << endl <<
             "       Binary: -0.0010010(1001)" << endl <<
             "        Octal: -0.112(3157)" << endl <<
             "  Hex Literal: -0.25(3)" << endl <<
-            "    Hex Float:  0xBE14CCC" << endl <<
+            "    Hex Float:  0xBE14CCCC" << endl <<
             endl <<
             "Hex Float Given: 0x59999901" << endl <<
             "  Decimal Float: 5.4042376e15" << endl <<
